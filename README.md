@@ -10,7 +10,7 @@
 2. ```Install peotry => pip install poetry```
 3.  ```poetry install``` (if you use pycharm, skip this step)
 
-### If you use Pycharm:
+### Pycharm:
 1. Add poetry plugin
 2. Add interpreter using poetry plugin
 
