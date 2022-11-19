@@ -1,2 +1,8 @@
 */.pytest_cache
 .idea/
+.coverage
+htmlcov
+*/__pycache__
+*/*/__pycache__
+app/*/__pycache__
+__pycache__
