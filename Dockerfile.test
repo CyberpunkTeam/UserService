@@ -13,4 +13,4 @@ RUN poetry config virtualenvs.create false \
 WORKDIR /users
 COPY ./ ./
 
-CMD python3 -m pytest ./tests
+CMD python3 -m pytest ./tests &&  python3 -m behave
