@@ -10,4 +10,4 @@ WORKDIR /users
 COPY ./ ./
 
 
-CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT
+CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT_APP
