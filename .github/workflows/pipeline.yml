@@ -7,9 +7,9 @@ on:
     branches:
       - '**'
 env:
-    PROJECT_ID: ${{ secrets.GCP_PROJECT }}
-    RUN_REGION: us-central1
-    SERVICE_NAME: users
+  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  RUN_REGION: us-central1
+  SERVICE_NAME: users
 
 
 jobs:
@@ -36,31 +36,31 @@ jobs:
     if: github.ref == 'master'
     needs: tests
     name: Setup, Build, and Deploy
-      runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
 
         # Setup gcloud CLI
-        - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
-          with:
-            version: '275.0.0'
-            service_account_email: ${{ secrets.SA_EMAIL }}
-            service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
+      - uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+        with:
+          version: '275.0.0'
+          service_account_email: ${{ secrets.SA_EMAIL }}
+          service_account_key: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS}}
 
         # Configure gcloud CLI
-        - name: gcloud Set up
-          run: |
-            gcloud config set project $PROJECT_ID
+      - name: gcloud Set up
+        run: |
+          gcloud config set project $PROJECT_ID
         # Build and push image to Google Container Registry
-        - name: Build
-          run: |
-            gcloud builds submit -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
+      - name: Build
+        run: |
+          gcloud builds submit -t gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA
         # Deploy image to Cloud Run
-        - name: Deploy
-          run: |
-            gcloud run deploy $SERVICE_NAME \
-              --region $RUN_REGION \
-              --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
-              --platform managed
+      - name: Deploy
+        run: |
+          gcloud run deploy $SERVICE_NAME \
+            --region $RUN_REGION \
+            --image gcr.io/$PROJECT_ID/$SERVICE_NAME:$GITHUB_SHA \
+            --platform managed
