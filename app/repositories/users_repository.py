@@ -1,4 +1,3 @@
-import mongomock
 from cpunk_mongo.db import DataBase
 
 from app.models.users import Users
@@ -9,6 +8,8 @@ class UsersRepository(DataBase):
 
     def __init__(self, url, db_name):
         if db_name == "test":
+            import mongomock
+
             self.db = mongomock.MongoClient().db
         else:
             super().__init__(url, db_name)
