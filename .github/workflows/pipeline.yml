@@ -15,14 +15,13 @@ env:
 jobs:
   linter:
     runs-on: ubuntu-latest
-    needs: tests
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-python@v1
       - name: Linter
         run:  sh coverage.sh
   tests:
     runs-on: ubuntu-latest
+    needs: linter
     steps:
       - name: Check out code
         uses: actions/checkout@v2
