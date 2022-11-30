@@ -1,4 +1,4 @@
-from app.models.user import User
+from app.models.users import User
 
 
 def test_create_user():
