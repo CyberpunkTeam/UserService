@@ -9,6 +9,10 @@
 1. ```Install python ^3.9```
 2. ```Install peotry => pip install poetry```
 3.  ```poetry install``` (if you use pycharm, skip this step)
+4. Complete env vars in makefile or set in local env(if not use docker):
+- ```DATABASE_NAME```
+- ```DATABASE_USER```
+- ```DATABASE_PASSWORD```
 
 ### Pycharm:
 1. Add poetry plugin
