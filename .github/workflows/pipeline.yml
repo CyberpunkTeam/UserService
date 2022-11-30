@@ -34,7 +34,7 @@ jobs:
         run: COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_TOKEN }} sh coverage.sh
   deploy:
     if: github.ref == 'master'
-    needs: tests
+    needs: coverage
     runs-on: ubuntu-latest
 
     # Add "id-token" with the intended permissions.
