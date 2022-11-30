@@ -9,5 +9,4 @@ RUN poetry config virtualenvs.create false \
 WORKDIR /users
 COPY ./ ./
 
-
 CMD uvicorn app.main:app --host 0.0.0.0 --port $PORT_APP
