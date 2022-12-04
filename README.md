@@ -16,7 +16,7 @@
 
 ### Pycharm:
 1. Add poetry plugin
-2. Add interpreter using poetry plugin
+2. Add an interpreter using poetry plugin
 
 
 ## Run API
