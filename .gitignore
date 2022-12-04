@@ -7,3 +7,5 @@ htmlcov
 app/*/__pycache__
 __pycache__
 .DS_Store
+.vscode
+entry.py
