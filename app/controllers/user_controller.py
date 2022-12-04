@@ -11,9 +11,9 @@ class UserController:
         return user
 
     @staticmethod
-    def get(repository, email=None, top=False):
-        result = repository.get(email)
-        if len(result) == 0 and email is not None:
+    def get(repository, uid=None, top=False):
+        result = repository.get(uid)
+        if len(result) == 0 and uid is not None:
             raise HTTPException(status_code=404, detail="Item not found")
 
         if top:

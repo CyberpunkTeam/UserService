@@ -23,7 +23,13 @@ def step_impl(context, name, lastname, location, email):
     :type context: behave.runner.Context
     """
 
-    body = {"name": name, "lastname": lastname, "location": location, "email": email}
+    body = {
+        "name": name,
+        "lastname": lastname,
+        "location": location,
+        "email": email,
+        "uid": "interal_uid",
+    }
     context.vars["user_to_save"] = body
 
 

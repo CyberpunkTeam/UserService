@@ -15,9 +15,14 @@ def test_get_all_user():
             lastname="Lopez",
             email="tincho_lopez@gmail.com",
             location="CABA",
+            uid="1234",
         ),
         Users(
-            name="Juan", lastname="Gomez", email="juan_gomez@gmail.com", location="CABA"
+            name="Juan",
+            lastname="Gomez",
+            email="juan_gomez@gmail.com",
+            location="CABA",
+            uid="1235",
         ),
     ]
     result = UserController.get(repository)
@@ -32,9 +37,14 @@ def test_get_top_user():
             lastname="Lopez",
             email="tincho_lopez@gmail.com",
             location="CABA",
+            uid="1234",
         ),
         Users(
-            name="Juan", lastname="Gomez", email="juan_gomez@gmail.com", location="CABA"
+            name="Juan",
+            lastname="Gomez",
+            email="juan_gomez@gmail.com",
+            location="CABA",
+            uid="1235",
         ),
     ]
     result = UserController.get(repository, top=True)
@@ -49,9 +59,10 @@ def test_get_user():
             lastname="Lopez",
             email="tincho_lopez@gmail.com",
             location="CABA",
+            uid="1234",
         )
     ]
-    result = UserController.get(repository, email="tincho_lopez@gmail.com", top=True)
+    result = UserController.get(repository, uid="1234", top=True)
     assert result.name == "Martin"
 
 
@@ -59,7 +70,7 @@ def test_error_user_not_found():
     repository = Mock()
     repository.get.return_value = []
     with pytest.raises(HTTPException):
-        UserController.get(repository, email="tincho_lopez@gmail.com", top=True)
+        UserController.get(repository, uid="4444", top=True)
 
 
 def test_create_user():
@@ -71,6 +82,7 @@ def test_create_user():
             lastname="Lopez",
             email="tincho_lopez@gmail.com",
             location="CABA",
+            uid="1235",
         ),
     )
     result = UserController.post(repository, user)
@@ -86,6 +98,7 @@ def test_error_create_user():
             lastname="Lopez",
             email="tincho_lopez@gmail.com",
             location="CABA",
+            uid="1234",
         ),
     )
     with pytest.raises(HTTPException):

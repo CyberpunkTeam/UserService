@@ -12,7 +12,11 @@ def test_save_user():
     repository = UsersRepository(url, db_name)
 
     user = Users(
-        name="Matias", lastname="Fonseca", location="CABA", email="mfonseca@fi.uba.ar"
+        name="Matias",
+        lastname="Fonseca",
+        location="CABA",
+        email="mfonseca@fi.uba.ar",
+        uid="1234",
     )
 
     ok = repository.insert(user)
@@ -27,14 +31,18 @@ def test_get_user():
     repository = UsersRepository(url, db_name)
 
     user = Users(
-        name="Matias", lastname="Fonseca", location="CABA", email="mfonseca@fi.uba.ar"
+        name="Matias",
+        lastname="Fonseca",
+        location="CABA",
+        email="mfonseca@fi.uba.ar",
+        uid="1234",
     )
 
     ok = repository.insert(user)
 
     assert ok
 
-    users_found = repository.get("mfonseca@fi.uba.ar")
+    users_found = repository.get("1234")
 
     assert len(users_found) == 1
 
@@ -44,3 +52,4 @@ def test_get_user():
     assert user_found.lastname == "Fonseca"
     assert user_found.location == "CABA"
     assert user_found.email == "mfonseca@fi.uba.ar"
+    assert user_found.uid == "1234"
