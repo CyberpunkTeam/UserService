@@ -14,10 +14,10 @@ class UsersRepository(DataBase):
         else:
             super().__init__(url, db_name)
 
-    def get(self, email=None):
-        if email is None:
+    def get(self, uid=None):
+        if uid is None:
             return self.filter(self.COLLECTION_NAME, {}, output_model=Users)
-        return self.find_by(self.COLLECTION_NAME, "email", email, output_model=Users)
+        return self.find_by(self.COLLECTION_NAME, "uid", uid, output_model=Users)
 
     def insert(self, user: Users):
         return self.save(self.COLLECTION_NAME, user)

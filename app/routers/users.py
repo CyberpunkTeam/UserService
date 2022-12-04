@@ -23,6 +23,6 @@ async def list_users():
     return UserController.get(user_repository)
 
 
-@router.get("/users/{email}", tags=["users"], response_model=Users)
-async def read_user(email: str):
-    return UserController.get(user_repository, email, top=True)
+@router.get("/users/{uid}", tags=["users"], response_model=Users)
+async def read_user(uid: str):
+    return UserController.get(user_repository, uid, top=True)

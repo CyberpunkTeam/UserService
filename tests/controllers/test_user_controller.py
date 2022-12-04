@@ -62,7 +62,7 @@ def test_get_user():
             uid="1234",
         )
     ]
-    result = UserController.get(repository, email="tincho_lopez@gmail.com", top=True)
+    result = UserController.get(repository, uid="1234", top=True)
     assert result.name == "Martin"
 
 
@@ -70,7 +70,7 @@ def test_error_user_not_found():
     repository = Mock()
     repository.get.return_value = []
     with pytest.raises(HTTPException):
-        UserController.get(repository, email="tincho_lopez@gmail.com", top=True)
+        UserController.get(repository, uid="4444", top=True)
 
 
 def test_create_user():

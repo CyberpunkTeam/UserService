@@ -42,7 +42,7 @@ def test_get_user():
 
     assert ok
 
-    users_found = repository.get("mfonseca@fi.uba.ar")
+    users_found = repository.get("1234")
 
     assert len(users_found) == 1
 
