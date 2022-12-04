@@ -4,6 +4,7 @@ from pydantic import BaseModel
 
 
 class Users(BaseModel):
+    uid: str
     name: str
     lastname: str
     email: str
@@ -14,4 +15,4 @@ class Users(BaseModel):
 
     @staticmethod
     def get_schema():
-        return {"name": str, "lastname": str, "email": str, "location": str}
+        return {"name": str, "lastname": str, "email": str, "location": str, "uid": str}
