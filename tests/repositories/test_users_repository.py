@@ -53,3 +53,52 @@ def test_get_user():
     assert user_found.location == "CABA"
     assert user_found.email == "mfonseca@fi.uba.ar"
     assert user_found.uid == "1234"
+
+
+@mongomock.patch(servers=(("server.example.com", 27017),))
+def test_get_users_list():
+    url = config.DATABASE_URL
+    db_name = config.DATABASE_NAME
+    repository = UsersRepository(url, db_name)
+
+    user = Users(
+        name="Matias",
+        lastname="Fonseca",
+        location="CABA",
+        email="mfonseca@fi.uba.ar",
+        uid="1234",
+    )
+
+    ok = repository.insert(user)
+
+    assert ok
+
+    user = Users(
+        name="Matias",
+        lastname="Fonseca",
+        location="CABA",
+        email="mfonseca@fi.uba.ar",
+        uid="2234",
+    )
+
+    ok = repository.insert(user)
+
+    assert ok
+
+    user = Users(
+        name="Matias",
+        lastname="Fonseca",
+        location="CABA",
+        email="mfonseca@fi.uba.ar",
+        uid="4444",
+    )
+
+    ok = repository.insert(user)
+
+    assert ok
+
+    uids_list = ["1234", "2234"]
+
+    users_returned = repository.get_by_list(uids_list)
+
+    assert len(users_returned) == 2

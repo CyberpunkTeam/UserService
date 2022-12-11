@@ -19,6 +19,11 @@ class UsersRepository(DataBase):
             return self.filter(self.COLLECTION_NAME, {}, output_model=Users)
         return self.find_by(self.COLLECTION_NAME, "uid", uid, output_model=Users)
 
+    def get_by_list(self, uid_list):
+        return self.find_by(
+            self.COLLECTION_NAME, "uid", {"$in": uid_list}, output_model=Users
+        )
+
     def insert(self, user: Users):
         return self.save(self.COLLECTION_NAME, user)
 
