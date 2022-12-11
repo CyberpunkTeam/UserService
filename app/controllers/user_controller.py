@@ -19,3 +19,7 @@ class UserController:
         if top:
             return result[0]
         return result
+
+    @staticmethod
+    def get_users(repository, uids):
+        return repository.get_by_list(uids)
