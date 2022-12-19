@@ -1,5 +1,6 @@
 from cpunk_mongo.db import DataBase
 
+from app.models.requests.user_update import UserUpdate
 from app.models.users import Users
 
 
@@ -26,6 +27,9 @@ class UsersRepository(DataBase):
 
     def insert(self, user: Users):
         return self.save(self.COLLECTION_NAME, user)
+
+    def put(self, user: UserUpdate):
+        return self.update(self.COLLECTION_NAME, "uid", user.uid, user)
 
     @staticmethod
     def create_repository(url, database_name):
