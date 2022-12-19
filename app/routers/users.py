@@ -4,6 +4,8 @@ from fastapi import APIRouter
 
 from app import config
 from app.controllers.user_controller import UserController
+from app.models.requests.user_update import UserUpdate
+from app.models.responses.message import Message
 from app.models.users import Users
 from app.repositories.users_repository import UsersRepository
 
@@ -30,3 +32,8 @@ async def list_users(uids: str = ""):
 @router.get("/users/{uid}", tags=["users"], response_model=Users)
 async def read_user(uid: str):
     return UserController.get(user_repository, uid, top=True)
+
+
+@router.put("/users/{uid}", tags=["users"], response_model=Message)
+async def update_user(uid: str, user: UserUpdate):
+    return UserController.put(user_repository, uid, user)
