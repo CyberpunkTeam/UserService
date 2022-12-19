@@ -34,6 +34,6 @@ async def read_user(uid: str):
     return UserController.get(user_repository, uid, top=True)
 
 
-@router.put("/users/{uid}", tags=["users"], response_model=Message)
+@router.put("/users/{uid}", tags=["users"], response_model=Users)
 async def update_user(uid: str, user: UserUpdate):
     return UserController.put(user_repository, uid, user)

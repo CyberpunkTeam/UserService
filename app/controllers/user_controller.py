@@ -31,7 +31,8 @@ class UserController:
         UserController.exists(repository, uid)
         user.uid = uid
         if repository.put(user):
-            return {"message": "User updated"}
+            result = repository.get(uid=uid)
+            return result[0]
         else:
             raise HTTPException(status_code=500, detail="Error to update user")
 
