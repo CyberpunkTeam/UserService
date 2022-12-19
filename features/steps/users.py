@@ -146,9 +146,9 @@ def step_impl(context, name, lastname, location):
 
     user_updated = response.json()
     user_before_update = context.vars["user_before_update"]
-    fields_updated = context.vars["user_to_update"]
+
     assert user_updated.get("uid") == user_before_update.get("uid")
     assert user_updated.get("email") == user_before_update.get("email")
-    assert user_updated.get("name") == fields_updated.get("name")
-    assert user_updated.get("lastname") == fields_updated.get("lastname")
-    assert user_updated.get("location") == fields_updated.get("location")
+    assert user_updated.get("name") == name
+    assert user_updated.get("lastname") == lastname
+    assert user_updated.get("location") == location
