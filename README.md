@@ -1,7 +1,7 @@
 # UserService
 
 [![.github/workflows/pipeline.yml](https://github.com/CyberpunkTeam/UserService/actions/workflows/pipeline.yml/badge.svg)](https://github.com/CyberpunkTeam/UserService/actions/workflows/pipeline.yml)
-[![Coverage Status](https://coveralls.io/repos/github/CyberpunkTeam/UserService/badge.svg?branch=master)](https://coveralls.io/github/CyberpunkTeam/UserService?branch=master)
+[![codecov](https://codecov.io/gh/CyberpunkTeam/UserService/branch/master/graph/badge.svg?token=XECYVW20SF)](https://codecov.io/gh/CyberpunkTeam/UserService)
 
 
 ## Setup
