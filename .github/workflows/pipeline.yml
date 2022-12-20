@@ -38,7 +38,7 @@ jobs:
         with:
           repo-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Coverage tests
-        run: COVERALLS_REPO_TOKEN=${{ secrets.COVERALLS_TOKEN }} sh coverage.sh
+        run: CODECOV_TOKEN=${{ secrets.CODECOV_TOKEN }} sh coverage.sh
   deploy:
     if: github.ref == 'master'
     needs: coverage
