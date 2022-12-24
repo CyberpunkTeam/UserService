@@ -12,6 +12,8 @@ class Users(BaseModel):
     location: str
     profile_image: Optional[str] = ""
     cover_image: Optional[str] = ""
+    created_date: Optional[str] = ""
+    updated_date: Optional[str] = ""
 
     def to_json(self):
         return loads(self.json(exclude_defaults=True))
@@ -33,4 +35,6 @@ class Users(BaseModel):
             "uid": str,
             "profile_image": str,
             "cover_image": str,
+            "created_date": str,
+            "updated_date": str,
         }
