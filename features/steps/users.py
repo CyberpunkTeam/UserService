@@ -1,3 +1,6 @@
+import time
+from datetime import datetime
+
 import mongomock
 from behave import *
 
@@ -54,6 +57,10 @@ def step_impl(context):
     :type context: behave.runner.Context
     """
     assert context.response.status_code == 201
+    user = context.response.json()
+    local = datetime.now()
+    assert user.get("created_date").split(":")[0] == local.strftime("%d-%m-%Y")
+    assert user.get("updated_date").split(":")[0] == local.strftime("%d-%m-%Y")
 
 
 @given(
@@ -113,7 +120,7 @@ def step_impl(context):
     headers = {"Content-Type": mimetype, "Accept": mimetype}
 
     url = "/users/" + context.vars["uid_to_update"]
-
+    time.sleep(1)
     context.response = context.client.put(
         url, json=context.vars["user_to_update"], headers=headers
     )
@@ -153,6 +160,7 @@ def step_impl(context, name, lastname, location):
     assert user_updated.get("name") == name
     assert user_updated.get("lastname") == lastname
     assert user_updated.get("location") == location
+    assert user_updated.get("created_date") < user_updated.get("updated_date")
 
 
 @step(

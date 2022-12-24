@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-
+from datetime import datetime
 from app.models.requests.user_update import UserUpdate
 from app.models.users import Users
 
@@ -8,7 +8,11 @@ class UserController:
     @staticmethod
     def post(repository, user: Users):
         user.set_default_images()
+        local = datetime.now()
+        user.created_date = local.strftime("%d-%m-%Y:%H:%M:%S")
+        user.updated_date = local.strftime("%d-%m-%Y:%H:%M:%S")
         ok = repository.insert(user)
+
         if not ok:
             raise HTTPException(status_code=500, detail="Error saving")
         return user
@@ -31,6 +35,8 @@ class UserController:
     def put(repository, uid, user: UserUpdate):
         UserController.exists(repository, uid)
         user.uid = uid
+        local = datetime.now()
+        user.updated_date = local.strftime("%d-%m-%Y:%H:%M:%S")
         if repository.put(user):
             result = repository.get(uid=uid)
             return result[0]

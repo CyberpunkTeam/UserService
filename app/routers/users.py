@@ -5,7 +5,6 @@ from fastapi import APIRouter
 from app import config
 from app.controllers.user_controller import UserController
 from app.models.requests.user_update import UserUpdate
-from app.models.responses.message import Message
 from app.models.users import Users
 from app.repositories.users_repository import UsersRepository
 
