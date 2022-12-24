@@ -7,6 +7,7 @@ from app.models.users import Users
 class UserController:
     @staticmethod
     def post(repository, user: Users):
+        user.set_default_images()
         ok = repository.insert(user)
         if not ok:
             raise HTTPException(status_code=500, detail="Error saving")

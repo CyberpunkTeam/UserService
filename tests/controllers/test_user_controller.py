@@ -76,14 +76,12 @@ def test_error_user_not_found():
 def test_create_user():
     repository = Mock()
     repository.insert.return_value = True
-    user = (
-        Users(
-            name="Martin",
-            lastname="Lopez",
-            email="tincho_lopez@gmail.com",
-            location="CABA",
-            uid="1235",
-        ),
+    user = Users(
+        name="Martin",
+        lastname="Lopez",
+        email="tincho_lopez@gmail.com",
+        location="CABA",
+        uid="1235",
     )
     result = UserController.post(repository, user)
     assert result == user
@@ -92,14 +90,13 @@ def test_create_user():
 def test_error_create_user():
     repository = Mock()
     repository.insert.return_value = False
-    user = (
-        Users(
-            name="Martin",
-            lastname="Lopez",
-            email="tincho_lopez@gmail.com",
-            location="CABA",
-            uid="1234",
-        ),
+    user = Users(
+        name="Martin",
+        lastname="Lopez",
+        email="tincho_lopez@gmail.com",
+        location="CABA",
+        uid="1234",
     )
+
     with pytest.raises(HTTPException):
         UserController.post(repository, user)
