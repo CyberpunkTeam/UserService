@@ -145,6 +145,7 @@ def step_impl(context, name, lastname, location):
     assert response.status_code == 200
 
     user_updated = response.json()
+    context.vars["user_updated"] = user_updated
     user_before_update = context.vars["user_before_update"]
 
     assert user_updated.get("uid") == user_before_update.get("uid")
@@ -152,3 +153,29 @@ def step_impl(context, name, lastname, location):
     assert user_updated.get("name") == name
     assert user_updated.get("lastname") == lastname
     assert user_updated.get("location") == location
+
+
+@step(
+    'cambio mi imagen de perfil a "{profile_image}" y mi imagen de portada a "{cover_image}"'
+)
+def step_impl(context, profile_image, cover_image):
+    """
+    :param profile_image: str
+    :param cover_image: str
+    :type context: behave.runner.Context
+    """
+    user_to_update = context.vars["user_to_update"]
+    user_to_update["profile_image"] = profile_image
+    user_to_update["cover_image"] = cover_image
+
+
+@step('mi imagen es "{profile_image}" y mi imagen de portada es "{cover_image}"')
+def step_impl(context, profile_image, cover_image):
+    """
+    :param profile_image: str
+    :param cover_image: str
+    :type context: behave.runner.Context
+    """
+    user_updated = context.vars["user_updated"]
+    assert user_updated.get("cover_image") == cover_image
+    assert user_updated.get("profile_image") == profile_image
