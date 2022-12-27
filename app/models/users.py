@@ -38,3 +38,6 @@ class Users(BaseModel):
             "created_date": str,
             "updated_date": str,
         }
+
+    def get_id(self):
+        return self.uid
