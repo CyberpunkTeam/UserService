@@ -48,3 +48,8 @@ class UserController:
         result = repository.get(uid)
         if len(result) == 0 and uid is not None:
             raise HTTPException(status_code=404, detail="User not found")
+
+    @staticmethod
+    def search(repository, value):
+        fields = ["name", "lastname"]
+        return repository.search(fields, value)
