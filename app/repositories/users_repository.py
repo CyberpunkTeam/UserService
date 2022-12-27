@@ -31,6 +31,9 @@ class UsersRepository(DataBase):
     def put(self, user: UserUpdate):
         return self.update(self.COLLECTION_NAME, "uid", user.uid, user)
 
+    def search(self, fields, value):
+        return self.ilike(self.COLLECTION_NAME, fields, value, output_model=Users)
+
     @staticmethod
     def create_repository(url, database_name):
         return UsersRepository(url, database_name)

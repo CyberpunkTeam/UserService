@@ -20,7 +20,10 @@ async def create_user(user: Users):
 
 
 @router.get("/users/", tags=["users"], response_model=List[Users])
-async def list_users(uids: str = ""):
+async def list_users(uids: str = "", search: str = ""):
+    if len(search) > 0:
+        return UserController.search(user_repository, search)
+
     if len(uids) > 0:
         uids = uids[1 : len(uids) - 1].split(",")
         return UserController.get_users(user_repository, uids)

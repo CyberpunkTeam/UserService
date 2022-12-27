@@ -1,3 +1,4 @@
+import random
 import time
 from datetime import datetime
 
@@ -187,3 +188,70 @@ def step_impl(context, profile_image, cover_image):
     user_updated = context.vars["user_updated"]
     assert user_updated.get("cover_image") == cover_image
     assert user_updated.get("profile_image") == profile_image
+
+
+@given(
+    'que esta registrado el usuario con nombre "{name}", apellido "{lastname}", ubicaciones "{location}" y email "{email}"'
+)
+def step_impl(context, name, lastname, location, email):
+    """
+    :param name:str
+    :param lastname:str
+    :param location:str
+    :param email:str
+    :type context: behave.runner.Context
+    """
+    body = {
+        "name": name,
+        "lastname": lastname,
+        "location": location,
+        "email": email,
+        "uid": f"{ random.randint(0, 1)}",
+    }
+
+    context.vars["user_before_update"] = body
+    context.vars["uid_to_update"] = "1"
+    mimetype = "application/json"
+    headers = {"Content-Type": mimetype, "Accept": mimetype}
+
+    url = "/users"
+
+    response = context.client.post(url, json=body, headers=headers)
+
+    assert response.status_code == 201
+
+
+@when('busco por "{search}"')
+def step_impl(context, search):
+    """
+    :param search: str
+    :type context: behave.runner.Context
+    """
+    url = f"/users/?search={search}"
+
+    response = context.client.get(url)
+
+    assert response.status_code == 200
+
+    context.response = response
+
+
+@then('me retorna como resultado el usuario con {field} "{value}"')
+def step_impl(context, field, value):
+    """
+    :param field: str
+    :param value: str
+    :type context: behave.runner.Context
+    """
+    field2english = {"nombre": "name", "apellido": "lastname"}
+
+    result = context.response.json()
+    if len(result) == 1:
+        user = result[0]
+        assert user.get(field2english[field]) == value
+    else:
+        values = []
+        for user in result:
+            values.append(user.get(field2english[field]))
+
+        assert value in values
