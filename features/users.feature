@@ -67,3 +67,31 @@ Feature: CRUD User
     Then me retorna como resultado el usuario con nombre "Juan"
 
     And me retorna como resultado el usuario con apellido "Diaz"
+
+
+  Scenario: Update user work experience
+    Given que estoy registrado con nombre "Juan", apellido "Gomez", ubicaciones "Buenos Aires, Argentina" y email "jgomez@gmail.com"
+
+    When actualizo mis experiencia laboral a trabajo en "Mercado Libre" como "SR Data scientist" desde "2022-02-01"
+
+    And actualizo mis experiencia laboral a trabaje en "Despegar" como "Data scientist" desde "2021-02-01" hasta "2022-02-01"
+
+    And confirmo la actualizacion
+
+    Then se me informa que se actualizo exitosamente
+
+    And puedo ver que mis dos experiencias cargadas
+
+
+  Scenario: Update user education
+    Given que estoy registrado con nombre "Juan", apellido "Gomez", ubicaciones "Buenos Aires, Argentina" y email "jgomez@gmail.com"
+
+    When actualizo mi educacion a que estudie en el colegio "San jose" bachiller en sociales desde "2001-02-01" hasta "2018-02-01"
+
+    And actualizo mi educacion a que estudio en la "UBA" ingenieria en informatica desde "2019-02-01"
+
+    And confirmo la actualizacion
+
+    Then se me informa que se actualizo exitosamente
+
+    And puedo ver que mi educacion
