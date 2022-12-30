@@ -8,4 +8,4 @@ class Education(BaseModel):
     institution: str
     start_date: str
     finish_date: Optional[str]
-    finish: bool
+    finished: bool

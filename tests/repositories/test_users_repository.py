@@ -117,13 +117,13 @@ def test_get_user_with_education_and_work_experience():
         institution="San jose",
         start_date="2001-02-01",
         finish_date="2019-02-01",
-        finish=True,
+        finished=True,
     )
     education_collage = Education(
         title="Informatic engineering",
         institution="UBA",
         start_date="2019-02-01",
-        finish=False,
+        finished=False,
     )
 
     work_expirience_1 = WorkExperience(

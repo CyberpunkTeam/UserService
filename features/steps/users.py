@@ -255,3 +255,103 @@ def step_impl(context, field, value):
             values.append(user.get(field2english[field]))
 
         assert value in values
+
+
+@when(
+    'actualizo mis experiencia laboral a {action} en "{company}" como "{position}" desde "{start_date}"'
+)
+def step_impl(context, action, company, position, start_date):
+    """
+    :param action:str
+    :param company:str
+    :param position:str
+    :param start_date:str
+    :type context: behave.runner.Context
+    """
+    current_job = True if action == "trabajo" else False
+
+    work_experience = context.vars.get("work_experience", [])
+    work_experience.append(
+        {
+            "current_job": current_job,
+            "company": company,
+            "position": position,
+            "start_date": start_date,
+        }
+    )
+    context.vars["user_to_update"] = {"work_experience": work_experience}
+    context.vars["work_experience"] = work_experience
+
+
+@step("puedo ver que mis dos experiencias cargadas")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    user = context.response.json()
+    assert len(user.get("work_experience")) == 2
+
+
+@step("puedo ver que mi educacion")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    user = context.response.json()
+    assert len(user.get("education")) == 2
+
+
+@when(
+    'actualizo mi educacion a que {action} en el colegio "{institution}" {title} en sociales desde "{start_date}" '
+    'hasta "{finish_date}"'
+)
+def step_impl(context, action, institution, title, start_date, finish_date):
+    """
+    :param action:str
+    :param institution:str
+    :param title:str
+    :param start_date:str
+    :param finish_date:str
+    :type context: behave.runner.Context
+    """
+    finished = True if action == "estudio" else False
+
+    education = context.vars.get("education", [])
+    education.append(
+        {
+            "institution": institution,
+            "title": title,
+            "start_date": start_date,
+            "finish_date": finish_date,
+            "finished": finished,
+        }
+    )
+    context.vars["user_to_update"] = {"education": education}
+    context.vars["education"] = education
+
+
+@step(
+    'actualizo mi educacion a que {action} en la "{institution}" {title} desde "{start_date}"'
+)
+def step_impl(context, action, institution, title, start_date):
+    """
+    :param action:str
+    :param institution:str
+    :param title:str
+    :param start_date:str
+    :param finish_date:str
+    :type context: behave.runner.Context
+    """
+    finished = True if action == "estudio" else False
+
+    education = context.vars.get("education", [])
+    education.append(
+        {
+            "institution": institution,
+            "title": title,
+            "start_date": start_date,
+            "finished": finished,
+        }
+    )
+    context.vars["user_to_update"] = {"education": education}
+    context.vars["education"] = education
