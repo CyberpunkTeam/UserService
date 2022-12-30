@@ -1,7 +1,10 @@
 from json import loads
-from typing import Optional
+from typing import Optional, List
 
 from pydantic import BaseModel
+
+from app.models.education import Education
+from app.models.work_experience import WorkExperience
 
 
 class Users(BaseModel):
@@ -10,6 +13,8 @@ class Users(BaseModel):
     lastname: str
     email: str
     location: str
+    education: Optional[List[Education]] = []
+    work_experience: Optional[List[WorkExperience]] = []
     profile_image: Optional[str] = ""
     cover_image: Optional[str] = ""
     created_date: Optional[str] = ""
@@ -37,6 +42,8 @@ class Users(BaseModel):
             "cover_image": str,
             "created_date": str,
             "updated_date": str,
+            "education": list,
+            "work_experience": list,
         }
 
     def get_id(self):
