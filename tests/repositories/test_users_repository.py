@@ -99,11 +99,15 @@ def test_get_users_list():
 
     assert ok
 
-    uids_list = ["1234", "2234"]
+    uids_list = ["2234", "1234"]
 
     users_returned = repository.get_by_list(uids_list)
 
     assert len(users_returned) == 2
+
+    assert users_returned[0].uid == uids_list[0]
+    assert users_returned[1].uid == uids_list[1]
+
 
 
 @mongomock.patch(servers=(("server.example.com", 27017),))
