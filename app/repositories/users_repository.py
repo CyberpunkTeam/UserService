@@ -21,9 +21,13 @@ class UsersRepository(DataBase):
         return self.find_by(self.COLLECTION_NAME, "uid", uid, output_model=Users)
 
     def get_by_list(self, uid_list):
-        return self.find_by(
+        result = self.find_by(
             self.COLLECTION_NAME, "uid", {"$in": uid_list}, output_model=Users
         )
+        if len(result) > 0:
+            result.sort(key=lambda thing: uid_list.index(thing.uid))
+
+        return result
 
     def insert(self, user: Users):
         return self.save(self.COLLECTION_NAME, user)
