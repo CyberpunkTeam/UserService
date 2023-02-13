@@ -1,14 +1,9 @@
-from unittest.mock import Mock
-
 import mongomock
-import pytest
-from fastapi import HTTPException
+
 
 from app import config
 from app.controllers.location_controller import LocationController
-from app.controllers.user_controller import UserController
 from app.models.locations import Locations
-from app.models.users import Users
 from app.repositories.locations_repository import LocationsRepository
 
 
