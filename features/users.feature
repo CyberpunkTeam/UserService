@@ -56,7 +56,7 @@ Feature: CRUD User
     Then me retorna como resultado el usuario con apellido "Diaz"
 
 
-  Scenario: Search by user lastname and name
+  Scenario: Search by user name
 
     Given que esta registrado el usuario con nombre "Juan", apellido "Gomez", ubicaciones "Buenos Aires, Argentina" y email "jgomez@gmail.com"
 
@@ -66,7 +66,16 @@ Feature: CRUD User
 
     Then me retorna como resultado el usuario con nombre "Juan"
 
-    And me retorna como resultado el usuario con apellido "Diaz"
+  Scenario: Search by user lastname
+
+    Given que esta registrado el usuario con nombre "Carlos", apellido "Ibarra", ubicaciones "Buenos Aires, Argentina" y email "jgomez@gmail.com"
+
+    And que esta registrado el usuario con nombre "Raul", apellido "Perez", ubicaciones "Buenos Aires, Argentina" y email "pdiaz@gmail.com"
+
+    When busco por "a"
+
+    Then  me retorna como resultado el usuario con apellido "Ibarra"
+
 
 
   Scenario: Update user work experience

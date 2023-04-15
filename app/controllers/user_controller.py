@@ -33,7 +33,7 @@ class UserController:
             followers = agenda_repository.get(following_uid=uid)
             user_json = user.to_json()
             user_json["following"] = [agenda.following_uid for agenda in following]
-            user_json["followers"] = [agenda.following_uid for agenda in followers]
+            user_json["followers"] = [agenda.uid for agenda in followers]
             user_response = UsersResponse(**user_json)
 
             return user_response

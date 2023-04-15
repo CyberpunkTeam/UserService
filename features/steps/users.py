@@ -206,7 +206,7 @@ def step_impl(context, name, lastname, location, email):
         "lastname": lastname,
         "location": location,
         "email": email,
-        "uid": f"{ random.randint(0, 1)}",
+        "uid": f"{ random.randint(0, 100)}",
     }
 
     context.vars["user_before_update"] = body
