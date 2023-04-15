@@ -217,7 +217,8 @@ def step_impl(context, name, lastname, location, email):
     url = "/users"
 
     response = context.client.post(url, json=body, headers=headers)
-    context.vars[body.get("name") + "_uid"] = body.get("uid")
+    user = response.json()
+    context.vars[body.get("name") + "_uid"] = user.get("uid")
     assert response.status_code == 201
 
 

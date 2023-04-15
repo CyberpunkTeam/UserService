@@ -1,3 +1,4 @@
+import os
 from typing import List
 
 from fastapi import APIRouter
@@ -15,6 +16,15 @@ router = APIRouter()
 # Repository
 user_repository = UsersRepository(config.DATABASE_URL, config.DATABASE_NAME)
 agenda_repository = AgendasRepository(config.DATABASE_URL, config.DATABASE_NAME)
+
+
+@router.post("/users/reset", tags=["teams"], status_code=200)
+async def reset():
+    if os.environ.get("TEST_MODE") == "1":
+        return {
+            "reset_users": user_repository.reset(),
+            "reset_agendas": agenda_repository.reset(),
+        }
 
 
 @router.post("/users/", tags=["users"], response_model=Users, status_code=201)

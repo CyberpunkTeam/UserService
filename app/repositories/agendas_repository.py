@@ -26,3 +26,6 @@ class AgendasRepository(DataBase):
             filters["following_uid"] = following_uid
 
         return self.filter(self.COLLECTION_NAME, filters, output_model=Agendas)
+
+    def reset(self):
+        return self.delete_all(self.COLLECTION_NAME)
