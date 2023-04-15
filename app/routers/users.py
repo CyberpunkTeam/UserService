@@ -6,12 +6,15 @@ from app import config
 from app.controllers.user_controller import UserController
 from app.models.requests.user_update import UserUpdate
 from app.models.users import Users
+from app.repositories.agendas_repository import AgendasRepository
 from app.repositories.users_repository import UsersRepository
+from app.models.response.users import Users as UserResponse
 
 router = APIRouter()
 
 # Repository
 user_repository = UsersRepository(config.DATABASE_URL, config.DATABASE_NAME)
+agenda_repository = AgendasRepository(config.DATABASE_URL, config.DATABASE_NAME)
 
 
 @router.post("/users/", tags=["users"], response_model=Users, status_code=201)
@@ -31,9 +34,24 @@ async def list_users(uids: str = "", search: str = ""):
     return UserController.get(user_repository)
 
 
-@router.get("/users/{uid}", tags=["users"], response_model=Users)
+@router.get("/users/{uid}", tags=["users"], response_model=UserResponse)
 async def read_user(uid: str):
-    return UserController.get(user_repository, uid, top=True)
+    return UserController.get(
+        user_repository, uid, top=True, agenda_repository=agenda_repository
+    )
+
+
+@router.post(
+    "/users/{uid}/followers/{follower_uid}",
+    tags=["users"],
+    status_code=201,
+    response_model=UserResponse,
+)
+async def add_follower(uid: str, follower_uid: str):
+    UserController.add_follower(agenda_repository, uid, follower_uid)
+    return UserController.get(
+        user_repository, follower_uid, top=True, agenda_repository=agenda_repository
+    )
 
 
 @router.put("/users/{uid}", tags=["users"], response_model=Users)

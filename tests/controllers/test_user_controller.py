@@ -30,6 +30,8 @@ def test_get_all_user():
 
 
 def test_get_top_user():
+    agenda_repository = Mock()
+    agenda_repository.get.return_value = []
     repository = Mock()
     repository.get.return_value = [
         Users(
@@ -47,11 +49,15 @@ def test_get_top_user():
             uid="1235",
         ),
     ]
-    result = UserController.get(repository, top=True)
+    result = UserController.get(
+        repository, top=True, agenda_repository=agenda_repository
+    )
     assert result.name == "Martin"
 
 
 def test_get_user():
+    agenda_repository = Mock()
+    agenda_repository.get.return_value = []
     repository = Mock()
     repository.get.return_value = [
         Users(
@@ -62,7 +68,9 @@ def test_get_user():
             uid="1234",
         )
     ]
-    result = UserController.get(repository, uid="1234", top=True)
+    result = UserController.get(
+        repository, uid="1234", top=True, agenda_repository=agenda_repository
+    )
     assert result.name == "Martin"
 
 

@@ -95,3 +95,14 @@ Feature: CRUD User
     Then se me informa que se actualizo exitosamente
 
     And puedo ver que mi educacion
+
+  Scenario: Follow user
+    Given que esta registrado el usuario con nombre "Juan", apellido "Gomez", ubicaciones "Buenos Aires, Argentina" y email "jgomez@gmail.com"
+
+    And que esta registrado el usuario con nombre "Pedro", apellido "Diaz", ubicaciones "Buenos Aires, Argentina" y email "pdiaz@gmail.com"
+
+    When "Juan" sigue a "Pedro"
+
+    Then "Juan" aparace entre los seguidos de "Pedro"
+
+    And "Juan" tiene entre sus seguidos a "Pedro"
