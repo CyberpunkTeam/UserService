@@ -29,11 +29,18 @@ class UserController:
         if top:
             user = result[0]
             uid = user.uid
-            following = agenda_repository.get(uid=uid)
-            followers = agenda_repository.get(following_uid=uid)
+            users_following = agenda_repository.get(aid=uid, agenda_type="USERS")
+            users_followers = agenda_repository.get(
+                following_uid=uid, agenda_type="USERS"
+            )
+            teams_following = agenda_repository.get(aid=uid, agenda_type="TEAMS")
+
             user_json = user.to_json()
-            user_json["following"] = [agenda.following_uid for agenda in following]
-            user_json["followers"] = [agenda.uid for agenda in followers]
+            user_json["following"] = {
+                "users": [agenda.following_uid for agenda in users_following],
+                "teams": [agenda.following_uid for agenda in teams_following],
+            }
+            user_json["followers"] = [agenda.aid for agenda in users_followers]
             user_response = UsersResponse(**user_json)
 
             return user_response
@@ -67,8 +74,10 @@ class UserController:
         return repository.search(fields, value)
 
     @staticmethod
-    def add_follower(agenda_repository, uid, follower_uid):
-        new_agenda = Agendas(uid=follower_uid, following_uid=uid)
+    def add_follower(agenda_repository, uid, follower_uid, follower_type):
+        new_agenda = Agendas(
+            aid=follower_uid, following_uid=uid, agenda_type=follower_type
+        )
         ok = agenda_repository.insert(new_agenda)
         if not ok:
             raise HTTPException(status_code=404, detail="Error to save agenda")

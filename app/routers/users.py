@@ -58,7 +58,20 @@ async def read_user(uid: str):
     response_model=UserResponse,
 )
 async def add_follower(uid: str, follower_uid: str):
-    UserController.add_follower(agenda_repository, uid, follower_uid)
+    UserController.add_follower(agenda_repository, uid, follower_uid, "USERS")
+    return UserController.get(
+        user_repository, follower_uid, top=True, agenda_repository=agenda_repository
+    )
+
+
+@router.post(
+    "/users/teams/{tid}/followers/{follower_uid}",
+    tags=["users"],
+    status_code=201,
+    response_model=UserResponse,
+)
+async def add_follower(tid: str, follower_uid: str):
+    UserController.add_follower(agenda_repository, tid, follower_uid, "TEAMS")
     return UserController.get(
         user_repository, follower_uid, top=True, agenda_repository=agenda_repository
     )

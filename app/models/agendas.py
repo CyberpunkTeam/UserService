@@ -4,12 +4,13 @@ from pydantic import BaseModel
 
 
 class Agendas(BaseModel):
-    uid: str
+    aid: str
     following_uid: str
+    agenda_type: str
 
     def to_json(self):
         return loads(self.json(exclude_defaults=True))
 
     @staticmethod
     def get_schema():
-        return {"uid": str, "following_uid": str}
+        return {"aid": str, "following_uid": str, "agenda_type": str}
