@@ -206,7 +206,7 @@ def step_impl(context, name, lastname, location, email):
         "lastname": lastname,
         "location": location,
         "email": email,
-        "uid": f"{ random.randint(0, 1)}",
+        "uid": f"{ random.randint(0, 100)}",
     }
 
     context.vars["user_before_update"] = body
@@ -217,7 +217,8 @@ def step_impl(context, name, lastname, location, email):
     url = "/users"
 
     response = context.client.post(url, json=body, headers=headers)
-
+    user = response.json()
+    context.vars[body.get("name") + "_uid"] = user.get("uid")
     assert response.status_code == 201
 
 
@@ -355,3 +356,53 @@ def step_impl(context, action, institution, title, start_date):
     )
     context.vars["user_to_update"] = {"education": education}
     context.vars["education"] = education
+
+
+@when('"{follower_name}" sigue a "{following_name}"')
+def step_impl(context, follower_name, following_name):
+    """
+    :type context: behave.runner.Context
+    """
+    follower_uid = context.vars[follower_name + "_uid"]
+    following_uid = context.vars[following_name + "_uid"]
+    mimetype = "application/json"
+    headers = {"Content-Type": mimetype, "Accept": mimetype}
+
+    url = f"/users/{following_uid}/followers/{follower_uid}"
+
+    response = context.client.post(url, headers=headers)
+    assert response.status_code == 201
+
+
+@then('"{follower_name}" aparace entre los seguidos de "{following_name}"')
+def step_impl(context, follower_name, following_name):
+    """
+    :type context: behave.runner.Context
+    """
+    follower_uid = context.vars[follower_name + "_uid"]
+    following_uid = context.vars[following_name + "_uid"]
+    url = f"/users/{following_uid}"
+
+    response = context.client.get(url)
+    assert response.status_code == 200
+
+    user = response.json()
+    followers = user.get("followers")
+    assert follower_uid in followers
+
+
+@step('"{follower_name}" tiene entre sus seguidos a "{following_name}"')
+def step_impl(context, follower_name, following_name):
+    """
+    :type context: behave.runner.Context
+    """
+    follower_uid = context.vars[follower_name + "_uid"]
+    following_uid = context.vars[following_name + "_uid"]
+    url = f"/users/{follower_uid}"
+
+    response = context.client.get(url)
+    assert response.status_code == 200
+
+    user = response.json()
+    following = user.get("following")
+    assert following_uid in following

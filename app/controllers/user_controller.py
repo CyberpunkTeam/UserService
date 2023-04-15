@@ -1,7 +1,10 @@
 from fastapi import HTTPException
 from datetime import datetime
+
+from app.models.agendas import Agendas
 from app.models.requests.user_update import UserUpdate
 from app.models.users import Users
+from app.models.response.users import Users as UsersResponse
 
 
 class UserController:
@@ -18,13 +21,22 @@ class UserController:
         return user
 
     @staticmethod
-    def get(repository, uid=None, top=False):
+    def get(repository, uid=None, top=False, agenda_repository=None):
         result = repository.get(uid)
         if len(result) == 0 and uid is not None:
             raise HTTPException(status_code=404, detail="User not found")
 
         if top:
-            return result[0]
+            user = result[0]
+            uid = user.uid
+            following = agenda_repository.get(uid=uid)
+            followers = agenda_repository.get(following_uid=uid)
+            user_json = user.to_json()
+            user_json["following"] = [agenda.following_uid for agenda in following]
+            user_json["followers"] = [agenda.uid for agenda in followers]
+            user_response = UsersResponse(**user_json)
+
+            return user_response
         return result
 
     @staticmethod
@@ -53,3 +65,10 @@ class UserController:
     def search(repository, value):
         fields = ["name", "lastname"]
         return repository.search(fields, value)
+
+    @staticmethod
+    def add_follower(agenda_repository, uid, follower_uid):
+        new_agenda = Agendas(uid=follower_uid, following_uid=uid)
+        ok = agenda_repository.insert(new_agenda)
+        if not ok:
+            raise HTTPException(status_code=404, detail="Error to save agenda")
