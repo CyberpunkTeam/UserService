@@ -22,4 +22,4 @@ class Users(BaseModel):
     skills: Optional[Skills]
     idioms: Optional[List[str]]
     followers: List[str]
-    following: List[str]
+    following: dict

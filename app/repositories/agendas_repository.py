@@ -17,13 +17,16 @@ class AgendasRepository(DataBase):
     def insert(self, agenda: Agendas):
         return self.save(self.COLLECTION_NAME, agenda)
 
-    def get(self, uid=None, following_uid=None):
+    def get(self, aid=None, following_uid=None, agenda_type=None):
         filters = {}
-        if uid is not None:
-            filters["uid"] = uid
+        if aid is not None:
+            filters["aid"] = aid
 
         if following_uid is not None:
             filters["following_uid"] = following_uid
+
+        if agenda_type is not None:
+            filters["agenda_type"] = agenda_type
 
         return self.filter(self.COLLECTION_NAME, filters, output_model=Agendas)
 

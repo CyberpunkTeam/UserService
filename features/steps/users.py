@@ -405,4 +405,4 @@ def step_impl(context, follower_name, following_name):
 
     user = response.json()
     following = user.get("following")
-    assert following_uid in following
+    assert following_uid in following.get("users")
