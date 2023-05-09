@@ -9,7 +9,7 @@ from app.models.response.users import Users as UsersResponse
 
 class UserController:
     @staticmethod
-    def post(repository, user: Users):
+    def post(repository, user: Users, agenda_repository):
         user.set_default_images()
         local = datetime.now()
         user.created_date = local.strftime("%d-%m-%Y:%H:%M:%S")
@@ -18,7 +18,10 @@ class UserController:
 
         if not ok:
             raise HTTPException(status_code=500, detail="Error saving")
-        return user
+
+        return UserController.get(
+            repository, user.uid, top=True, agenda_repository=agenda_repository
+        )
 
     @staticmethod
     def get(repository, uid=None, top=False, agenda_repository=None):
@@ -51,14 +54,15 @@ class UserController:
         return repository.get_by_list(uids)
 
     @staticmethod
-    def put(repository, uid, user: UserUpdate):
+    def put(repository, uid, user: UserUpdate, agenda_repository):
         UserController.exists(repository, uid)
         user.uid = uid
         local = datetime.now()
         user.updated_date = local.strftime("%d-%m-%Y:%H:%M:%S")
         if repository.put(user):
-            result = repository.get(uid=uid)
-            return result[0]
+            return UserController.get(
+                repository, user.uid, top=True, agenda_repository=agenda_repository
+            )
         else:
             raise HTTPException(status_code=500, detail="Error to update user")
 

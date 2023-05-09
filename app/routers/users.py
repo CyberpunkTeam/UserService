@@ -27,9 +27,11 @@ async def reset():
         }
 
 
-@router.post("/users/", tags=["users"], response_model=Users, status_code=201)
+@router.post("/users/", tags=["users"], response_model=UserResponse, status_code=201)
 async def create_user(user: Users):
-    return UserController.post(user_repository, user)
+    return UserController.post(
+        user_repository, user, agenda_repository=agenda_repository
+    )
 
 
 @router.get("/users/", tags=["users"], response_model=List[Users])
@@ -77,6 +79,8 @@ async def add_follower(tid: str, follower_uid: str):
     )
 
 
-@router.put("/users/{uid}", tags=["users"], response_model=Users)
+@router.put("/users/{uid}", tags=["users"], response_model=UserResponse)
 async def update_user(uid: str, user: UserUpdate):
-    return UserController.put(user_repository, uid, user)
+    return UserController.put(
+        user_repository, uid, user, agenda_repository=agenda_repository
+    )

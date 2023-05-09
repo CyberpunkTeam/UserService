@@ -4,7 +4,9 @@ import pytest
 from fastapi import HTTPException
 
 from app.controllers.user_controller import UserController
+from app.models.agendas import Agendas
 from app.models.users import Users
+from app.models.response.users import Users as UsersResponse
 
 
 def test_get_all_user():
@@ -91,8 +93,23 @@ def test_create_user():
         location="CABA",
         uid="1235",
     )
-    result = UserController.post(repository, user)
-    assert result == user
+    user_response = UsersResponse(
+        name="Martin",
+        lastname="Lopez",
+        email="tincho_lopez@gmail.com",
+        location="CABA",
+        uid="1235",
+        followers=["mock"],
+        following={"users": ["mock_uid"], "teams": ["mock_uid"]},
+    )
+    repository.get.return_value = [user]
+
+    repository_agenda = Mock()
+    agenda = Agendas(aid="mock", following_uid="mock_uid", agenda_type="USER")
+    repository_agenda.get.return_value = [agenda]
+
+    result = UserController.post(repository, user, repository_agenda)
+    assert result.uid == user_response.uid
 
 
 def test_error_create_user():
@@ -107,4 +124,4 @@ def test_error_create_user():
     )
 
     with pytest.raises(HTTPException):
-        UserController.post(repository, user)
+        UserController.post(repository, user, repository)
