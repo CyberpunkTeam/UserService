@@ -4,6 +4,7 @@ from pydantic.main import BaseModel
 
 from app.models.education import Education
 from app.models.skills import Skills
+from app.models.states import States
 from app.models.work_experience import WorkExperience
 
 
@@ -23,3 +24,5 @@ class Users(BaseModel):
     idioms: Optional[List[str]]
     followers: List[str]
     following: dict
+    state: Optional[States]
+    temporal_team: Optional[bool]
