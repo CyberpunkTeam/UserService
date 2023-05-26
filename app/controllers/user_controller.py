@@ -3,6 +3,7 @@ from datetime import datetime
 
 from app.models.agendas import Agendas
 from app.models.requests.user_update import UserUpdate
+from app.models.states import States
 from app.models.users import Users
 from app.models.response.users import Users as UsersResponse
 
@@ -14,6 +15,8 @@ class UserController:
         local = datetime.now()
         user.created_date = local.strftime("%d-%m-%Y:%H:%M:%S")
         user.updated_date = local.strftime("%d-%m-%Y:%H:%M:%S")
+        user.state = States.ACTIVE
+        user.temporal_team = False
         ok = repository.insert(user)
 
         if not ok:

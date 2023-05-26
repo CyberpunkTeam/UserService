@@ -62,6 +62,8 @@ def step_impl(context):
     local = datetime.now()
     assert user.get("created_date").split(":")[0] == local.strftime("%d-%m-%Y")
     assert user.get("updated_date").split(":")[0] == local.strftime("%d-%m-%Y")
+    assert user.get("state") == "ACTIVE"
+    assert user.get("temporal_team") == False
 
 
 @given(
