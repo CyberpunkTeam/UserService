@@ -15,10 +15,15 @@ class UsersRepository(DataBase):
         else:
             super().__init__(url, db_name)
 
-    def get(self, uid=None):
-        if uid is None:
-            return self.filter(self.COLLECTION_NAME, {}, output_model=Users)
-        return self.find_by(self.COLLECTION_NAME, "uid", uid, output_model=Users)
+    def get(self, uid=None, state=None):
+        filters = {}
+        if uid is not None:
+            filters["uid"] = uid
+
+        if state is not None:
+            filters["state"] = state
+
+        return self.filter(self.COLLECTION_NAME, filters, output_model=Users)
 
     def get_by_list(self, uid_list):
         result = self.find_by(

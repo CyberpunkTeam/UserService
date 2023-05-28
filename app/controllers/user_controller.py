@@ -27,9 +27,9 @@ class UserController:
         )
 
     @staticmethod
-    def get(repository, uid=None, top=False, agenda_repository=None):
-        result = repository.get(uid)
-        if len(result) == 0 and uid is not None:
+    def get(repository, uid=None, top=False, agenda_repository=None, state=None):
+        result = repository.get(uid, state)
+        if len(result) == 0 and uid is not None and state is None:
             raise HTTPException(status_code=404, detail="User not found")
 
         if top:
