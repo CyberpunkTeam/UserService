@@ -6,6 +6,7 @@ from fastapi import APIRouter
 from app import config
 from app.controllers.user_controller import UserController
 from app.models.requests.user_update import UserUpdate
+from app.models.states import States
 from app.models.users import Users
 from app.repositories.agendas_repository import AgendasRepository
 from app.repositories.users_repository import UsersRepository
@@ -35,7 +36,7 @@ async def create_user(user: Users):
 
 
 @router.get("/users/", tags=["users"], response_model=List[Users])
-async def list_users(uids: str = "", search: str = ""):
+async def list_users(uids: str = "", search: str = "", state: States = None):
     if len(search) > 0:
         return UserController.search(user_repository, search)
 
@@ -43,7 +44,7 @@ async def list_users(uids: str = "", search: str = ""):
         uids = uids[1 : len(uids) - 1].split(",")
         return UserController.get_users(user_repository, uids)
 
-    return UserController.get(user_repository)
+    return UserController.get(user_repository, state=state)
 
 
 @router.get("/users/{uid}", tags=["users"], response_model=UserResponse)
