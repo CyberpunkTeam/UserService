@@ -115,3 +115,10 @@ Feature: CRUD User
     Then "Lucas" aparace entre los seguidos de "Matias"
 
     And "Lucas" tiene entre sus seguidos a "Matias"
+
+  Scenario: get user metrics
+    Given que esta registrado el usuario con nombre "Lucas", apellido "Gomez", ubicaciones "Buenos Aires, Argentina" y email "jgomez@gmail.com"
+
+    When pido las metricas
+
+    Then entonces veo un registro el dia de hoy

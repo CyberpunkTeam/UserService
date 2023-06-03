@@ -88,3 +88,15 @@ class UserController:
         ok = agenda_repository.insert(new_agenda)
         if not ok:
             raise HTTPException(status_code=404, detail="Error to save agenda")
+
+    @staticmethod
+    def get_metrics(repository):
+        users = repository.get()
+        metrics = {}
+        for user in users:
+            created_date = user.created_date[:10]
+            metrics[created_date] = metrics.get(created_date, 0) + 1
+
+        payload = {"users_created": metrics}
+
+        return payload
