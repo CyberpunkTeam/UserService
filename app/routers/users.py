@@ -85,3 +85,8 @@ async def update_user(uid: str, user: UserUpdate):
     return UserController.put(
         user_repository, uid, user, agenda_repository=agenda_repository
     )
+
+
+@router.get("/metrics", tags=["users"])
+async def get_metrics():
+    return UserController.get_metrics(user_repository)

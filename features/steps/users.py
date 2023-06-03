@@ -408,3 +408,23 @@ def step_impl(context, follower_name, following_name):
     user = response.json()
     following = user.get("following")
     assert following_uid in following.get("users")
+
+
+@when("pido las metricas")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    url = f"/metrics"
+
+    context.response = context.client.get(url)
+
+
+@then("entonces veo un registro el dia de hoy")
+def step_impl(context):
+    """
+    :type context: behave.runner.Context
+    """
+    assert context.response.status_code == 200
+    payload = context.response.json()
+    assert len(payload.get("users_created", {})) == 1
