@@ -427,4 +427,8 @@ def step_impl(context):
     """
     assert context.response.status_code == 200
     payload = context.response.json()
-    assert len(payload.get("users_created", {})) == 1
+
+    assert "users_created" in payload
+    assert "users_state" in payload
+
+    assert len(payload.get("users_created", {}).get("labels")) == 1
