@@ -102,11 +102,11 @@ class UserController:
         payload = {
             "users_created": {
                 "labels": list(created_metrics.keys()),
-                "data": list(created_metrics.values()),
+                "values": list(created_metrics.values()),
             },
             "users_state": {
                 "labels": list(states_metrics.keys()),
-                "data": list(states_metrics.values()),
+                "values": list(states_metrics.values()),
             },
         }
 
