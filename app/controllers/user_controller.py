@@ -92,11 +92,22 @@ class UserController:
     @staticmethod
     def get_metrics(repository):
         users = repository.get()
-        metrics = {}
+        created_metrics = {}
+        states_metrics = {}
         for user in users:
             created_date = user.created_date[:10]
-            metrics[created_date] = metrics.get(created_date, 0) + 1
+            created_metrics[created_date] = created_metrics.get(created_date, 0) + 1
+            states_metrics[user.state] = states_metrics.get(user.state, 0) + 1
 
-        payload = {"users_created": metrics}
+        payload = {
+            "users_created": {
+                "labels": list(created_metrics.keys()),
+                "data": list(created_metrics.values()),
+            },
+            "users_state": {
+                "labels": list(states_metrics.keys()),
+                "data": list(states_metrics.values()),
+            },
+        }
 
         return payload
